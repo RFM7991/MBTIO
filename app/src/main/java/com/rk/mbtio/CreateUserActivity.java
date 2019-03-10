@@ -195,7 +195,7 @@ public class CreateUserActivity extends AppCompatActivity {
             fragments.add(Q4Fragment.newInstance());
 
             // results
-            fragments.add(ResultsFragment.newInstance());
+  //          fragments.add(ResultsFragment.newInstance());
 
             // create profile
        //     profileFragment = new CreateProfileFragment();
@@ -265,26 +265,16 @@ public class CreateUserActivity extends AppCompatActivity {
             // to-do turn I into E
             String q2_temp = q2.substring(0,1);
             if (q2.substring(0,1).equals("I")) {
-                q2_temp = "";
+                q2_temp = "N";
             }
-
 
             // concatenate traits
             String MBTI = q1.substring(0, 1) + q2_temp + q3.substring(0, 1) + q4.substring(0, 1);
 
-            // add results fragment to adapter, set view pager to new item
-            // then clear previous fragments
 
-            // to do - set text for button
-
-    //        Log.i("RFM", "" + profileFragment.getView());
-            //   cpf.setText(MBTI);
-
-            //           mSectionsPagerAdapter.addFragment(cpf);
-//            mSectionsPagerAdapter.notifyDataSetChanged();
-            //      mViewPager.setCurrentItem(mSectionsPagerAdapter.getCount() -1);
-            //      mSectionsPagerAdapter.clearFragments();
-            //     mSectionsPagerAdapter.notifyDataSetChanged();
+            mSectionsPagerAdapter.addFragment(ResultsFragment.newInstance(MBTI));
+            mSectionsPagerAdapter.notifyDataSetChanged();
+            mViewPager.setCurrentItem(mSectionsPagerAdapter.getCount() - 1);
 
         } else {
             return;
@@ -299,7 +289,9 @@ public class CreateUserActivity extends AppCompatActivity {
         && q3 != null  && q4 != null) {
 
             // handle case of N for Intuitive
+
             String q2_temp = q2.substring(0,1);
+            Log.d("YOO", q2_temp);
             if (q2_temp.equals("I")){
                 q2 = "N";
             }
@@ -307,7 +299,6 @@ public class CreateUserActivity extends AppCompatActivity {
 
             // add results fragment to adapter, set view pager to new item
             // then clear previous fragments
-
 
             mSectionsPagerAdapter.addFragment(CreateProfileFragment.newInstance(MBTI));
             mSectionsPagerAdapter.notifyDataSetChanged();
@@ -326,15 +317,16 @@ public class CreateUserActivity extends AppCompatActivity {
         // check if ready for POST
         profileFragment.readyForPost();
 
+        User user = ((GlobalSingleton) getApplication()).getUser();
         // if post is successful launch Driver activity
         if (profileFragment.isReady()) {
+
+            ((GlobalSingleton) getApplication()).requestTool.updateProfile(user.uid, user.pin, profileFragment.getStrings(), profileFragment.getFloats(), profileFragment.getInts());
             launchDriver();
         }
     }
 
-
-
-
+ //   public void updateProfile(int uid, int pin, HashMap<String, String> strings, HashMap<String,Float> floats, HashMap<String, Integer> ints) {
     // check if profile is ready for POST
     public void readyForUpload(JSONObject obj) {
 

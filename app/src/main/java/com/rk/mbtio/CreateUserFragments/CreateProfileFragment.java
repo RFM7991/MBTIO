@@ -238,6 +238,50 @@ public class CreateProfileFragment extends Fragment implements AdapterView.OnIte
         return fields;
     }
 
+
+    public HashMap<String, String> getStrings() {
+
+        HashMap<String, String> fields = new HashMap<String, String>();
+
+        try {
+            fields.put("name", getName());
+            fields.put("MBTI", getMBTI());
+            fields.put("sex", sex);
+            fields.put("interest", interest);
+            fields.put("bio", getBio());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fields;
+    }
+
+    public HashMap<String, Integer> getInts() {
+
+        HashMap<String, Integer> fields = new HashMap<String, Integer>();
+
+        try {
+            fields.put("age", Integer.parseInt(getAge()));
+            fields.put("height", (Integer.parseInt(feet)*10) + Integer.parseInt(inches));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fields;
+    }
+
+
+    public HashMap<String, Float> getFloats() {
+
+        HashMap<String, Float> fields = new HashMap<String, Float>();
+
+        try {
+            fields.put("long",(float) 0);
+            fields.put("lat", (float) 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fields;
+    }
+
     // set text for MBTI score
     public void setScore(View view, String s) {
         EditText v =  view.findViewById(R.id.MBTIIn);
@@ -304,7 +348,6 @@ public class CreateProfileFragment extends Fragment implements AdapterView.OnIte
                         .create()
                         .show();
 
-
             } else {
                 // explicit permission unnecessary go ahead and  request from system
                 ActivityCompat.requestPermissions(this.getActivity(),
@@ -318,7 +361,6 @@ public class CreateProfileFragment extends Fragment implements AdapterView.OnIte
             locationEnabled = true;
             return true;
         }
-
     }
 
     //

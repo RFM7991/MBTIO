@@ -15,18 +15,16 @@
         android:theme="@style/AppTheme"
         android:name=".GlobalSingleton">
         <activity android:name=".CreateUserActivity">
-          <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
 
-
-          </intent-filter>
+            </intent-filter>
 
         </activity>
         <activity android:name=".DriverActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
+
         </activity>
     </application>
 

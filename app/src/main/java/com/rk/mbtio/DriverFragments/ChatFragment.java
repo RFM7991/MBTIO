@@ -100,10 +100,9 @@ public class ChatFragment extends Fragment {
         int uid = (  (GlobalSingleton) getActivity().getApplication()).user.getUid();
         Message m = new Message(mConversation.sid, mConversation.rid, num, text, true);
 
-        (  (GlobalSingleton) getActivity().getApplication()).requestTool.sendMessage(m.sid, m.rid, m.num,
-                (  (GlobalSingleton) getActivity().getApplication()).user.pin, m.message);
+        ((GlobalSingleton) getActivity().getApplication()).requestTool.sendMessage(m.sid, m.rid, m.num,
+                ( (GlobalSingleton) getActivity().getApplication()).user.pin, m.message);
         return m;
-
     }
 
 

@@ -11,17 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.rk.mbtio.Conversation;
 import com.rk.mbtio.DriverActivity;
 import com.rk.mbtio.GlobalSingleton;
-import com.rk.mbtio.InboxRecyclerViewAdapter;
 import com.rk.mbtio.Match;
 import com.rk.mbtio.MatchRecyclerViewAdapter;
 import com.rk.mbtio.R;
 import com.rk.mbtio.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MatchesFragment extends Fragment {
 
@@ -73,6 +70,7 @@ public class MatchesFragment extends Fragment {
         ArrayList<Match> matches = ((GlobalSingleton) getActivity().getApplication()).getMatches(10);
 
         for(Match m : matches) { //m
+
             //ConversationFragment cf = new ConversationFragment();
             //cf.otherUser =  ((GlobalSingleton) this.getActivity().getApplication()).getUser(key);
             //cf.setPreview(conversations.get(key).preview);
@@ -81,10 +79,9 @@ public class MatchesFragment extends Fragment {
         }
 
         // specify an adapter
-      //  mAdapter = new MatchRecyclerViewAdapter(fragments);
-        //((MatchRecyclerViewAdapter) mAdapter).setViewPager(viewPager);
-        //((MatchRecyclerViewAdapter) mAdapter).setPagerAdapter(pagerAdapter);
-        //recyclerView.setAdapter(mAdapter);
+        mAdapter = new MatchRecyclerViewAdapter(matches);
+        ((MatchRecyclerViewAdapter) mAdapter).setViewPager(viewPager);
+        recyclerView.setAdapter(mAdapter);
 
         return view;
     }

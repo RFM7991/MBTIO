@@ -1,35 +1,32 @@
 package com.rk.mbtio;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
+import android.app.Activity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.rk.mbtio.DriverActivity.SectionsPagerAdapter;
-import com.rk.mbtio.DriverFragments.ConversationFragment;
+import com.rk.mbtio.DriverFragments.ChatFragment;
 
 import java.util.ArrayList;
-import java.util.Random;
 
-public class MatchRecyclerViewAdapter extends RecyclerView.Adapter<MatchRecyclerViewAdapter.CustomViewHolder> {
+public class MatchRecyclerViewAdapter extends Adapter<MatchRecyclerViewAdapter.CustomViewHolder> {
 
     // provide a reference to the view for each data item
     // complex data item may need more than one view per item
     // you provide access to all the iews for a data item in a view holder
-    private ArrayList<ConversationFragment> fragments;
+    private ArrayList<Match> matches;
     public ViewPager viewPager;
-    public SectionsPagerAdapter pagerAdapter;
-    private String fragment_context;
+    public Activity activity;
+    public int state = 0;
+    final int IN = 0;
+    final int OUT = 1;
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView  preview;
-        private ImageView profile;
 
         // provide a reference to the view for each data item
         // complex data item may need more than one view per item
@@ -37,31 +34,31 @@ public class MatchRecyclerViewAdapter extends RecyclerView.Adapter<MatchRecycler
 
         // specify data items
         public View view;
+        public TextView label, name, score;
+        public Button button;
 
         public CustomViewHolder(View v) {
             super(v);
             view = v;
-
-            profile = (ImageView) view.findViewById(R.id.profile);
-            preview = (TextView) view.findViewById(R.id.message_preview);
+            label = view.findViewById(R.id.match_label);
+            name = view.findViewById(R.id.match_name);
+            score = view.findViewById(R.id.match_score);
+            button = view.findViewById(R.id.start_chat);
         }
     }
 
     // Specify appropriate constructor for dataset
-    public MatchRecyclerViewAdapter(ArrayList<ConversationFragment> data) {
-
-        fragments = data;
+    public MatchRecyclerViewAdapter(ArrayList<Match> data) {
+        matches = data;
     }
 
     // Create new views (invoked by the layout manager)
     public MatchRecyclerViewAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        // create a new view
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_conversation, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.match, parent, false);
 
-        CustomViewHolder vh = new CustomViewHolder(v);
-        return vh;
+            CustomViewHolder vh = new CustomViewHolder(v);
+            return vh;
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -69,38 +66,53 @@ public class MatchRecyclerViewAdapter extends RecyclerView.Adapter<MatchRecycler
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         // - get element from your dataset at this position
         // -replace the contents of the view with that element
-        ConversationFragment f = fragments.get(position);
+        Match m = matches.get(position);
 
-        // set profile initial, font, and color
-        holder.profile.getBackground().setColorFilter(randomColor(), PorterDuff.Mode.MULTIPLY);
+        // set text
+        holder.label.setText(m.mbti);
+        holder.name.setText(m.name);
+        holder.score.setText(m.score + "");
 
-        // set button text
-        holder.preview.setText(f.getPreview());
+        // set button listeners
+        holder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
 
+            public void onClick(View v) {
+                // no chat created
+                if (state == 0) {
+                    state++;
+                    ChatFragment cf = new ChatFragment();
+                    ((GlobalSingleton) activity.getApplicationContext()).pagerAdapter.addFragment(cf);
+                    ((GlobalSingleton) activity.getApplicationContext()).pagerAdapter.notifyDataSetChanged();
+                    ((GlobalSingleton) activity.getApplicationContext()).viewPager.setCurrentItem(
+                            ((GlobalSingleton) activity.getApplicationContext()).pagerAdapter.getCount() - 1);
+                }
+                else {
+                    // change current chatFragment to corresponding chat
+
+                }
+
+            }
+        });
     }
 
     // get size of dataset in recycler view
     @Override
     public int getItemCount() {
-        return fragments.size();
-    }
-
-    // get random color
-    public int randomColor() {
-        Random rnd = new Random();
-        return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        return matches.size();
     }
 
     // set view pager for conversations buttons to change to chat fragment
     public void setViewPager(ViewPager vp) {
-        this.viewPager = vp;
+        viewPager = vp;
     };
 
-    public void setFragmentContext(String type) {
-        fragment_context = type;
+
+    // add Match at runtime
+    public void addMatch(Match m) {
+        matches.add(m);
+        notifyDataSetChanged();
     }
 
-    public void setPagerAdapter(SectionsPagerAdapter pagerAdapter) {
-        this.pagerAdapter = pagerAdapter;
-    }
+
 }
