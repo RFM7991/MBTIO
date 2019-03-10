@@ -21,4 +21,5 @@ public class Conversation {
     public void addMessage(UserMessage m) {
          messages.add(m);
     }
+    
 }
