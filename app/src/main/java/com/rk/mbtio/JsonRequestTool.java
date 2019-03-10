@@ -204,7 +204,6 @@ public class JsonRequestTool {
         });
     }
 
-
     // test POST for sending twilio text
     public void checkProfileReady(int uid, int pin) {
         JSONObject data = new JSONObject();
