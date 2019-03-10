@@ -32,6 +32,218 @@ public class JsonRequestTool {
         context = con;
     }
 
+    // test POST for send message
+    public void sendMessage(int sid, int rid, int num, int pin, String message) {
+
+        JSONObject data = new JSONObject();
+
+        try {
+            data.put("sid", sid);
+            data.put("rid", rid);
+            data.put("num", num);
+            data.put("pin", pin);
+            data.put("message", message);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONRequestObj("/messages/send", "POST", data, new JsonRequestTool.VolleyObjCallback() {
+            @Override
+            public void onSuccess(JSONObject results) {
+
+                Log.d("JSON", results.toString());
+            }
+        });
+    }
+
+    // test POST for get messages
+    public void getMessages(int sid, int pin) {
+        JSONObject data = new JSONObject();
+
+        try {
+            data.put("sid", sid);
+            data.put("pin", pin);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONRequestObj("/messages/get", "POST", data, new JsonRequestTool.VolleyObjCallback() {
+            @Override
+            public void onSuccess(JSONObject results) {
+                Log.d("JSON", results.toString());
+            }
+        });
+    }
+
+    // test POST for sending twilio text
+    public void sendTwilio(String phone) {
+        JSONObject data = new JSONObject();
+
+        try {
+            data.put("phone", phone);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONRequestObj("/twilio/send", "POST", data, new JsonRequestTool.VolleyObjCallback() {
+            @Override
+            public void onSuccess(JSONObject results) {
+                Log.d("JSON", results.toString());
+            }
+        });
+    }
+
+
+    // test POST for sending twilio text
+    public void verifyTwilio(String phone, int twilioPin) {
+        JSONObject data = new JSONObject();
+
+        try {
+            data.put("phone", phone);
+            data.put("twiliopin", twilioPin);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONRequestObj("/twilio/verify", "POST", data, new JsonRequestTool.VolleyObjCallback() {
+            @Override
+            public void onSuccess(JSONObject results) {
+                Log.d("JSON", results.toString());
+            }
+        });
+    }
+
+    // test POST for sending twilio text
+    public void getMatches(int uid, int pin, int max) {
+        JSONObject data = new JSONObject();
+
+        try {
+            data.put("uid", uid);
+            data.put("pin", pin);
+
+            data.put("max", max);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONRequestObj("/matches/get", "POST", data, new JsonRequestTool.VolleyObjCallback() {
+            @Override
+            public void onSuccess(JSONObject results) {
+                Log.d("JSON", results.toString());
+            }
+        });
+    }
+
+
+    // test POST for gettng all profiles
+    public void getAllProfiles(int uid, int pin) {
+        JSONObject data = new JSONObject();
+
+        JSONRequestObj("/profile/all", "POST", data, new JsonRequestTool.VolleyObjCallback() {
+            @Override
+            public void onSuccess(JSONObject results) {
+                Log.d("JSON", results.toString());
+            }
+        });
+    }
+
+    // test POST for sending twilio text
+    public void updateProfile(int uid, int pin, HashMap<String, String> strings, HashMap<String,Float> floats, HashMap<String, Integer> ints) {
+        JSONObject data = new JSONObject();
+
+        try {
+            if (floats.containsKey("lat")) {
+                data.put("lat", floats.get("lat"));
+            }
+
+            if (floats.containsKey("long")) {
+                data.put("long", floats.get("long"));
+            }
+
+
+            if (ints.containsKey("age")) {
+                data.put("age", floats.get("age"));
+            }
+
+            if (ints.containsKey("height")) {
+                data.put("height", floats.get("height"));
+            }
+
+
+            if (strings.containsKey("bio")) {
+                data.put("bio", floats.get("bio"));
+            }
+
+            if (strings.containsKey("mbti")) {
+                data.put("mbti", floats.get("mbti"));
+            }
+
+            if (strings.containsKey("sex")) {
+                data.put("sex", strings.get("sex"));
+            }
+
+            if (strings.containsKey("interest")) {
+                data.put("interest", strings.get("interest"));
+            }
+
+            if (strings.containsKey("name")) {
+                data.put("name", strings.get("name"));
+            }
+
+            data.put("uid", uid);
+            data.put("pin", pin);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONRequestObj("/profile/update", "POST", data, new JsonRequestTool.VolleyObjCallback() {
+            @Override
+            public void onSuccess(JSONObject results) {
+                Log.d("JSON", results.toString());
+            }
+        });
+    }
+
+
+    // test POST for sending twilio text
+    public void checkProfileReady(int uid, int pin) {
+        JSONObject data = new JSONObject();
+
+        try {
+            data.put("uid", uid);
+            data.put("pin", pin);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONRequestObj("/profile/ready", "POST", data, new JsonRequestTool.VolleyObjCallback() {
+            @Override
+            public void onSuccess(JSONObject results) {
+                Log.d("JSON", results.toString());
+            }
+        });
+    }
+
+    // test POST for getting self-user data
+    public void getSelf(int uid, int pin) {
+        JSONObject data = new JSONObject();
+
+        try {
+            data.put("uid", uid);
+            data.put("pin", pin);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONRequestObj("/profile/self", "POST", data, new JsonRequestTool.VolleyObjCallback() {
+            @Override
+            public void onSuccess(JSONObject results) {
+                Log.d("JSON", results.toString());
+            }
+        });
+    }
+
+
     // JSON request
     public void JSONRequestObj(String in_url, final String requestType, JSONObject data, final VolleyObjCallback callback) {
 
@@ -136,5 +348,4 @@ public class JsonRequestTool {
     public interface VolleyArrCallback {
         void onSuccess(JSONArray jArr);
     }
-
 }

@@ -48,6 +48,7 @@ public class CreateUserActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
+
     // string values for MB profile
     String q1, q2, q3, q4;
 
@@ -80,12 +81,6 @@ public class CreateUserActivity extends AppCompatActivity {
 
         // init JSONRequest tool
         requestTool = new JsonRequestTool(this.getApplicationContext());
-
-        // test loop
-        //   loop();
-
-        // test
-        sendMessage();
     }
     // swap viewpager to free fragment
     public void goToChat(View view) {
@@ -138,33 +133,8 @@ public class CreateUserActivity extends AppCompatActivity {
         loop.start();
     }
 
-    // test POST for send message
-    public void sendMessage() {
-
-        JSONObject data = new JSONObject();
-
-        try {
-            data.put("sid", 0);
-            data.put("rid", 42);
-            data.put("num", 0);
-            data.put("pin", 1);
-            data.put("message", "Lo");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        requestTool.JSONRequestObj("/messages/send", "POST", data, new JsonRequestTool.VolleyObjCallback() {
-            @Override
-            public void onSuccess(JSONObject results) {
-
-                Log.d("JSON", results.toString());
-            }
-        });
-    }
-
     public void onResume(){
         super.onResume();
-        sendMessage();
     }
 
     public void onPause() {
@@ -267,7 +237,6 @@ public class CreateUserActivity extends AppCompatActivity {
             if (q2.substring(0,1).equals("I")) {
                 q2_temp = "";
             }
-
 
             // concatenate traits
             String MBTI = q1.substring(0, 1) + q2_temp + q3.substring(0, 1) + q4.substring(0, 1);
