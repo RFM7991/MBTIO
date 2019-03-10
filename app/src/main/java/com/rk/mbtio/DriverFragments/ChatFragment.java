@@ -31,7 +31,7 @@ import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 
 public class ChatFragment extends Fragment {
 
-    private Conversation mConversation;
+    public Conversation mConversation;
     private ChatRecyclerViewAdapter mAdapter;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;

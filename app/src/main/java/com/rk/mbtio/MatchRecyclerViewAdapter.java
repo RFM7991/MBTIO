@@ -36,6 +36,7 @@ public class MatchRecyclerViewAdapter extends Adapter<MatchRecyclerViewAdapter.C
         public View view;
         public TextView label, name, score;
         public Button button;
+        public int uid;
 
         public CustomViewHolder(View v) {
             super(v);
@@ -61,6 +62,10 @@ public class MatchRecyclerViewAdapter extends Adapter<MatchRecyclerViewAdapter.C
             return vh;
     }
 
+    public GlobalSingleton gg;
+
+    public Match ma;
+
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
@@ -69,10 +74,13 @@ public class MatchRecyclerViewAdapter extends Adapter<MatchRecyclerViewAdapter.C
         Match m = matches.get(position);
 
         // set text
+
         holder.label.setText(m.mbti);
         holder.name.setText(m.name);
         holder.score.setText(m.score + "");
+        holder.uid = m.uid;
 
+        ma = m;
         // set button listeners
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,11 +89,13 @@ public class MatchRecyclerViewAdapter extends Adapter<MatchRecyclerViewAdapter.C
                 // no chat created
                 if (state == 0) {
                     state++;
+                    int s = gg.user.uid;
+                    gg.addConversation(ma.uid, new Conversation(s, ma.uid, new ArrayList<Message>() ));
+
                     ChatFragment cf = new ChatFragment();
-                    ((GlobalSingleton) activity.getApplicationContext()).pagerAdapter.addFragment(cf);
-                    ((GlobalSingleton) activity.getApplicationContext()).pagerAdapter.notifyDataSetChanged();
-                    ((GlobalSingleton) activity.getApplicationContext()).viewPager.setCurrentItem(
-                            ((GlobalSingleton) activity.getApplicationContext()).pagerAdapter.getCount() - 1);
+                    gg.pagerAdapter.notifyDataSetChanged();
+                gg.viewPager.setCurrentItem(
+                   gg.pagerAdapter.getCount() - 1);
                 }
                 else {
                     // change current chatFragment to corresponding chat
@@ -109,7 +119,8 @@ public class MatchRecyclerViewAdapter extends Adapter<MatchRecyclerViewAdapter.C
 
 
     // add Match at runtime
-    public void addMatch(Match m) {
+    public void ADDMatch(Match m, GlobalSingleton x ) {
+        gg = x;
         matches.add(m);
         notifyDataSetChanged();
     }

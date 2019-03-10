@@ -87,10 +87,9 @@ public ArrayList<Match> getMatches(int max) {
         int index = 0;
 
         for(Integer key: matchCache.keySet()) {
-            index++;
-
+    index++;
             //remove the match from the cache
-            matches.add(new Match(matchCache.remove(key)));
+            matches.add(new Match(matchCache.get(key)));
 
             if (index >= max) {
                 break;

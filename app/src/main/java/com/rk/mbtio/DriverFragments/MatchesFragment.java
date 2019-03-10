@@ -24,7 +24,7 @@ public class MatchesFragment extends Fragment {
 
     public ViewPager viewPager;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MatchRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private ImageView usersButton;
     private DriverActivity.SectionsPagerAdapter pagerAdapter;
@@ -50,12 +50,7 @@ public class MatchesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_matches, container, false);
 
         button = view.findViewById(R.id.get_matches_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getMatches();
-            }
-        });
+
         // recycler view
         recyclerView = (RecyclerView) view.findViewById(R.id.matches_recycler_view);
 
@@ -69,26 +64,34 @@ public class MatchesFragment extends Fragment {
 
         ArrayList<Match> matches = ((GlobalSingleton) getActivity().getApplication()).getMatches(10);
 
-        for(Match m : matches) { //m
-
-            //ConversationFragment cf = new ConversationFragment();
-            //cf.otherUser =  ((GlobalSingleton) this.getActivity().getApplication()).getUser(key);
-            //cf.setPreview(conversations.get(key).preview);
-           // cf.rid = conversations.get(key).rid;
-         //   fragments.add(cf);
-        }
 
         // specify an adapter
         mAdapter = new MatchRecyclerViewAdapter(matches);
         ((MatchRecyclerViewAdapter) mAdapter).setViewPager(viewPager);
         recyclerView.setAdapter(mAdapter);
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMatches();
+
+                ArrayList<Match> matches = ((GlobalSingleton) getActivity().getApplication()).getMatches(10);
+
+                for(Match m : matches) { //m
+                    ((MatchRecyclerViewAdapter) mAdapter).ADDMatch(m, gg);
+                }
+            }
+        });
         return view;
     }
 
+    public GlobalSingleton gg;
+
     public void getMatches() {
+        gg = ((GlobalSingleton) this.getActivity().getApplication());
         User u = ((GlobalSingleton) this.getActivity().getApplication()).user;
         int max = 10;
         ((GlobalSingleton) this.getActivity().getApplication()).requestTool.getMatches((GlobalSingleton) this.getActivity().getApplication(), u.uid, u.pin, max);
+
     }
 }
