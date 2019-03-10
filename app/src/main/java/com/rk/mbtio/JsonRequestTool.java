@@ -231,6 +231,7 @@ public class JsonRequestTool {
             u.bio = childJSONObject.getString("Bio");
             u.score = childJSONObject.getInt("Score");
             u.distance = childJSONObject.getInt("Distance");
+            u.uid = childJSONObject.getInt("uid");
 
             us.add(u);
 
