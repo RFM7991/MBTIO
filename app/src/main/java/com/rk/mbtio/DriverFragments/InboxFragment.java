@@ -58,6 +58,9 @@ public class InboxFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+
+    ArrayList<ConversationFragment> fragments = new ArrayList<ConversationFragment>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,7 +80,6 @@ public class InboxFragment extends Fragment {
 
         HashMap<Integer, Conversation> conversations = ((GlobalSingleton) getActivity().getApplication()).getConversations();
 
-        ArrayList<ConversationFragment> fragments = new ArrayList<ConversationFragment>();
 
         for(Integer key : conversations.keySet()) {
             ConversationFragment cf = new ConversationFragment();
@@ -93,7 +95,10 @@ public class InboxFragment extends Fragment {
         ((InboxRecyclerViewAdapter) mAdapter).setPagerAdapter(pagerAdapter);
         recyclerView.setAdapter(mAdapter);
 
+        ((GlobalSingleton) this.getActivity().getApplication()).fragments = fragments;
+
         return view;
     }
+
 
 }

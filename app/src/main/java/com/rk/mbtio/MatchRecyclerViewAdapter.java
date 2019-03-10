@@ -11,8 +11,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.rk.mbtio.DriverFragments.ChatFragment;
+import com.rk.mbtio.DriverFragments.ConversationFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MatchRecyclerViewAdapter extends Adapter<MatchRecyclerViewAdapter.CustomViewHolder> {
 
@@ -92,10 +94,12 @@ public class MatchRecyclerViewAdapter extends Adapter<MatchRecyclerViewAdapter.C
                     int s = gg.user.uid;
                     gg.addConversation(ma.uid, new Conversation(s, ma.uid, new ArrayList<Message>() ));
 
+
                     ChatFragment cf = new ChatFragment();
                     gg.pagerAdapter.notifyDataSetChanged();
                 gg.viewPager.setCurrentItem(
                    gg.pagerAdapter.getCount() - 1);
+
                 }
                 else {
                     // change current chatFragment to corresponding chat

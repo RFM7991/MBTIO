@@ -12,6 +12,7 @@ import android.provider.Settings;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.rk.mbtio.DriverActivity.SectionsPagerAdapter;
+import com.rk.mbtio.DriverFragments.ConversationFragment;
 
 //singleton class for all user data
 public class GlobalSingleton extends Application {
@@ -118,6 +119,7 @@ public void addMatches(ArrayList<User> u) {
 }
 
 
+  public   ArrayList<ConversationFragment> fragments;
 public void setRequestTool(Context ctx) {
         requestTool = new JsonRequestTool((ctx));
 }
