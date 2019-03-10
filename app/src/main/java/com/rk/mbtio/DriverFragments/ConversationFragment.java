@@ -6,7 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rk.mbtio.Conversation;
 import com.rk.mbtio.R;
+import com.rk.mbtio.User;
+import com.rk.mbtio.UserMessage;
+
+import java.util.ArrayList;
 
 public class ConversationFragment extends Fragment {
 
@@ -20,6 +25,9 @@ public class ConversationFragment extends Fragment {
 
     private String preview;
     private String sender;
+
+    private Conversation mConversation;
+
 
     public ConversationFragment() {
         // Required empty public constructor
@@ -39,6 +47,9 @@ public class ConversationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+        mConversation = new Conversation(getMesages());
     }
 
     @Override
@@ -46,7 +57,6 @@ public class ConversationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_conversation, container, false);
-
 
         return view;
     }
@@ -67,4 +77,9 @@ public class ConversationFragment extends Fragment {
         this.sender = sender;
     }
 
+
+    // to do associate with
+    public ArrayList<UserMessage> getMesages() {
+        return null;
+    }
 }

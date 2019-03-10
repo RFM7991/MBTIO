@@ -37,9 +37,10 @@ public class DriverActivity extends AppCompatActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.fragmentContainer);
         ((ViewPager) mViewPager).setAdapter(mSectionsPagerAdapter);
-
+        mViewPager.setOffscreenPageLimit(5);
         // set to matches page
         mViewPager.setCurrentItem(1);
+
 
 /*      For deletion
         // add Inbox and pas viewpager and PagerAdapter

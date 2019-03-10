@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.rk.mbtio.ChatRecyclerViewAdapter;
 import com.rk.mbtio.Conversation;
@@ -34,6 +35,8 @@ public class ChatFragment extends Fragment {
     private JsonRequestTool requestTool;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
+    private EditText edit_text;
+    private Button sendButton;
 
     public ChatFragment() {
         // required empty
@@ -75,13 +78,20 @@ public class ChatFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
         recyclerView.setNestedScrollingEnabled(false);
 
-        final Button sendButton = view.findViewById(R.id.chatbox_send);
+        sendButton = view.findViewById(R.id.chatbox_send);
+        edit_text = view.findViewById(R.id.edittext_chatbox);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String text = edit_text.getText().toString();
+                edit_text.setText("");
 
+                // Post Message
+                sendMessage(text);
+
+                // add message to recyclerView
+                mAdapter.addMessage(new UserMessage(text ,1));
             }
-
         });
 
         return view;
