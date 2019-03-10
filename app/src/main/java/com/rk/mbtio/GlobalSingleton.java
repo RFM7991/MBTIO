@@ -9,6 +9,7 @@ import android.util.Log;
 
 import android.provider.Settings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import com.rk.mbtio.DriverActivity.SectionsPagerAdapter;
 
@@ -26,6 +27,7 @@ public class GlobalSingleton extends Application {
     public User user;
 
     public HashMap<Integer, User> userCache;
+    public HashMap<Integer, User> matchCache;
 
     public HashMap<Integer, Conversation> conversations;
 
@@ -66,9 +68,34 @@ public void init() {
             settings = getApplicationContext().getSharedPreferences("PREFERENCES", 0);
 
             loadUser();
+
             conversations = new HashMap<Integer, Conversation>();
             userCache = new HashMap<Integer, User>();
+            matchCache = new HashMap<Integer, User>();
         }
+}
+
+public void addMatch(User u) {
+        matchCache.put(u.uid, u);
+}
+
+public ArrayList<Match> getMatches(int max) {
+        ArrayList<Match> matches = new ArrayList<Match>();
+
+        int index = 0;
+
+        for(Integer key: matchCache.keySet()) {
+            index++;
+
+            //remove the match from the cache
+            matches.add(new Match(matchCache.remove(key)));
+
+            if (index >= max) {
+                break;
+            }
+        }
+
+        return matches;
 }
 
 public void addUser(User u) {
@@ -82,7 +109,6 @@ public User getUser(Integer uid) {
 
     return null;
 }
-
 
 
 public void setRequestTool(Context ctx) {

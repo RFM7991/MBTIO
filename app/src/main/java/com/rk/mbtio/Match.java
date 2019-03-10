@@ -1,28 +1,32 @@
 package com.rk.mbtio;
 
-public class User {
-    public int state;
-    public int uid;
-    public int pin;
+public class Match {
+    public float score;
     public int height;
     public int age;
-    public String sex;
-    public String interest;
-    public String mbti;
     public String name;
-    public float score;
-    public int distance;
     public String bio;
+    public String mbti;
+    public int rid;
 
-    public User() {
-        state = 0;
+    public Match() {
+
     }
 
-    public User(int id) {
-        this.uid = id;
-        state = 1;
+    public Match(int id) {
     }
 
+    public Match(User u) {
+        this.score = u.score;
+        this.height = u.height;
+        this.age = u.age;
+        this.name = u.name;
+        this.rid = u.uid;
+        this.bio = u.bio;
+        this.mbti = u.mbti;
+
+    }
+/*
     public void setUid(int uid) {
         this.uid = uid;
     }
@@ -58,4 +62,5 @@ public class User {
     public int getUid() {
         return this.uid;
     }
+    */
 }

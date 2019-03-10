@@ -120,7 +120,6 @@ public class JsonRequestTool {
         try {
             data.put("uid", uid);
             data.put("pin", pin);
-
             data.put("max", max);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -133,7 +132,6 @@ public class JsonRequestTool {
             }
         });
     }
-
 
     // test POST for gettng all profiles
     public void getAllProfiles(int uid, int pin) {
