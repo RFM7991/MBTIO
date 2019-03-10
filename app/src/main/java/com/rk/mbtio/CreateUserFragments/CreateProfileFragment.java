@@ -43,7 +43,6 @@ public class CreateProfileFragment extends Fragment implements AdapterView.OnIte
 
     private boolean locationEnabled;
 
-
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     public CreateProfileFragment() {

@@ -129,7 +129,7 @@ public class ChatFragment extends Fragment {
         m.add(new UserMessage("Hi", 1));
 
         Random rand = new Random();
-        for (int i=0; i < 15; i++) {
+        for (int i=0; i < 5; i++) {
             m.add(new UserMessage("0" + rand.nextInt(), 0));
             m.add(new UserMessage("1" + rand.nextInt(),   1));
         }
