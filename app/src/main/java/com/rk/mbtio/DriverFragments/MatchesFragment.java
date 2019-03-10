@@ -89,10 +89,9 @@ public class MatchesFragment extends Fragment {
         return view;
     }
 
-
     public void getMatches() {
         User u = ((GlobalSingleton) this.getActivity().getApplication()).user;
         int max = 10;
-        ((GlobalSingleton) this.getActivity().getApplication()).requestTool.getMatches(u.uid, u.pin, max);
+        ((GlobalSingleton) this.getActivity().getApplication()).requestTool.getMatches((GlobalSingleton) this.getActivity().getApplication(), u.uid, u.pin, max);
     }
 }

@@ -23,6 +23,8 @@ public class GlobalSingleton extends Application {
 
     public JsonRequestTool requestTool;
 
+    public GlobalSingleton g;
+
     //stores user specific data
     public User user;
 
@@ -108,6 +110,12 @@ public User getUser(Integer uid) {
     }
 
     return null;
+}
+
+public void addMatches(ArrayList<User> u) {
+        for(User ud : u) {
+            matchCache.put(ud.uid, ud);
+        }
 }
 
 

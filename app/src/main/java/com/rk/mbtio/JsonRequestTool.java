@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +25,8 @@ public class JsonRequestTool {
 
     private Context context;
     private JSONArray statusArr;
+
+    GlobalSingleton gg;
 
     // API URL
     private final String URL = "https://mbtio-234017.appspot.com";
@@ -114,8 +117,9 @@ public class JsonRequestTool {
     }
 
     // test POST for sending twilio text
-    public void getMatches(int uid, int pin, int max) {
+    public void getMatches(GlobalSingleton g, int uid, int pin, int max) {
         JSONObject data = new JSONObject();
+        gg = g;
 
         try {
             data.put("uid", uid);
@@ -128,7 +132,11 @@ public class JsonRequestTool {
         JSONRequestObj("/matches/get", "POST", data, new JsonRequestTool.VolleyObjCallback() {
             @Override
             public void onSuccess(JSONObject results) {
-                Log.d("JSON", results.toString());
+                try {
+                   gg.addMatches( ParseMatches(results));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             }
         });
     }
@@ -197,10 +205,40 @@ public class JsonRequestTool {
         JSONRequestObj("/profile/update", "POST", data, new JsonRequestTool.VolleyObjCallback() {
             @Override
             public void onSuccess(JSONObject results) {
-                Log.d("JSON", results.toString());
+                try {
+                    ParseMatches(results);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
             }
         });
     }
+
+    public ArrayList<User> ParseMatches(JSONObject json) throws JSONException {
+        JSONArray jsonMainArr = json.getJSONArray("M");
+
+        ArrayList<User> us = new ArrayList<User>();
+        for (int i = 0; i < jsonMainArr.length(); i++) {  // **line 2**
+            JSONObject childJSONObject = jsonMainArr.getJSONObject(i);
+            User u = new User();
+
+
+            u.name = childJSONObject.getString("Name");
+            u.age = childJSONObject.getInt("Age");
+            u.mbti = childJSONObject.getString("MBTI");
+            u.height = childJSONObject.getInt("Height");
+            u.bio = childJSONObject.getString("Bio");
+            u.score = childJSONObject.getInt("Score");
+            u.distance = childJSONObject.getInt("Distance");
+
+            us.add(u);
+
+        }
+
+        return us;
+    }
+
 
     // test POST for sending twilio text
     public void checkProfileReady(int uid, int pin) {
