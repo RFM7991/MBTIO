@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.RequestQueue;
@@ -33,10 +34,31 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        te = findViewById(R.id.phone_digits_text);
+
+        button = findViewById(R.id.send_phone_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendPhoneNumber();
+            }
+        });
         activity = this;
 
         init();
     }
+
+    //sends phone number, advances state up by 1
+    public void sendPhoneNumber() {
+        String num = te.getText().toString();
+
+        if (num.length() > 8)
+        ( (GlobalSingleton) getApplication()).requestTool.sendTwilio(num);
+    }
+
+    public Button button;
+    public EditText te;
 
     public void init() {
 
