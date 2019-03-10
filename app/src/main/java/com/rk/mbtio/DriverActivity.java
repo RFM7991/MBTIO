@@ -29,6 +29,7 @@ public class DriverActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private JSONSingleton json;
 
     private JsonRequestTool requestTool;
 

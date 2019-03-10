@@ -81,6 +81,8 @@ public class CreateUserActivity extends AppCompatActivity {
         // init JSONRequest tool
         requestTool = new JsonRequestTool(this.getApplicationContext());
 
+        // test loop
+        //   loop();
 
         // test
         sendMessage();
@@ -115,6 +117,25 @@ public class CreateUserActivity extends AppCompatActivity {
         }
 
         Log.i("RFM", q1 +", " + q2 +", "+  q3 +", "+ q4);
+    }
+
+    public void loop() {
+        Thread loop = new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+
+                    Log.d("RFM", mViewPager.getCurrentItem() + "");
+
+                    // sleep
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+            }
+        });
+        loop.start();
     }
 
     // test POST for send message
@@ -310,6 +331,8 @@ public class CreateUserActivity extends AppCompatActivity {
             launchDriver();
         }
     }
+
+
 
 
     // check if profile is ready for POST

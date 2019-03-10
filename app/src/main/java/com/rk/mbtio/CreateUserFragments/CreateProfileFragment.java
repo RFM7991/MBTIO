@@ -63,7 +63,6 @@ public class CreateProfileFragment extends Fragment implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             MBTI =  getArguments().get("mbti").toString();
-
         }
     }
 
@@ -123,7 +122,6 @@ public class CreateProfileFragment extends Fragment implements AdapterView.OnIte
         ArrayAdapter<String> feetAdapter;
         ArrayAdapter<String> inchAdapter;
 
-        // sex
         // Set array to spinner
         sexAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_spinner_dropdown_item, sexes);
         sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item); // The drop down view
