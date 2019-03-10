@@ -145,7 +145,7 @@ public class JsonRequestTool {
                 Log.d("JSON", results.toString());
             }
         });
-    }
+    } 
 
     // test POST for sending twilio text
     public void updateProfile(int uid, int pin, HashMap<String, String> strings, HashMap<String,Float> floats, HashMap<String, Integer> ints) {
