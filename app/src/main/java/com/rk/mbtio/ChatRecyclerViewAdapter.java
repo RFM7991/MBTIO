@@ -99,4 +99,11 @@ public class ChatRecyclerViewAdapter extends Adapter<ChatRecyclerViewAdapter.Cus
     };
 
 
+    // add message at runtime
+    public void addMessage(UserMessage m) {
+        messages.add(m);
+        notifyDataSetChanged();
+    }
+
+
 }

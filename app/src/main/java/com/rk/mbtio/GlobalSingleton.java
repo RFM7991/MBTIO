@@ -4,10 +4,12 @@ import android.app.Application;
 import android.support.v4.view.ViewPager;
 
 import java.util.HashMap;
+import com.rk.mbtio.DriverActivity.SectionsPagerAdapter;
 
 public class GlobalSingleton extends Application {
 
     private ViewPager viewPager;
+    private SectionsPagerAdapter pagerAdapter;
 
     private User user;
 
@@ -21,6 +23,8 @@ public class GlobalSingleton extends Application {
     public ViewPager getViewPager() {
         return viewPager;
     }
+
+
 
     public HashMap<Integer, Conversation> getConversations() {
         return conversations;
@@ -36,5 +40,13 @@ public class GlobalSingleton extends Application {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public SectionsPagerAdapter getPagerAdapter() {
+        return pagerAdapter;
+    }
+
+    public void setPagerAdapter(SectionsPagerAdapter pagerAdapter) {
+        this.pagerAdapter = pagerAdapter;
     }
 }

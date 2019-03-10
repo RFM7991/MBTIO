@@ -102,6 +102,7 @@ public class InboxFragment extends Fragment {
 
         // add conversation fragments
         ConversationFragment convo1 = new ConversationFragment();
+     //   convo1.setmConversation();
         convo1.setPreview("hey there");
         convo1.setSender("Rob");
 

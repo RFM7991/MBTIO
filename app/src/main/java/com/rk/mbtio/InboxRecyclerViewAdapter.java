@@ -29,7 +29,6 @@ public class InboxRecyclerViewAdapter extends RecyclerView.Adapter<InboxRecycler
     private String fragment_context;
 
 
-
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
         private TextView  preview;
