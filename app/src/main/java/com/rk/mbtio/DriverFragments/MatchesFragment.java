@@ -15,6 +15,7 @@ import com.rk.mbtio.Conversation;
 import com.rk.mbtio.DriverActivity;
 import com.rk.mbtio.GlobalSingleton;
 import com.rk.mbtio.InboxRecyclerViewAdapter;
+import com.rk.mbtio.Match;
 import com.rk.mbtio.MatchRecyclerViewAdapter;
 import com.rk.mbtio.R;
 import com.rk.mbtio.User;
@@ -69,23 +70,21 @@ public class MatchesFragment extends Fragment {
         layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        HashMap<Integer, Conversation> conversations = ((GlobalSingleton) getActivity().getApplication()).getConversations();
+        ArrayList<Match> matches = ((GlobalSingleton) getActivity().getApplication()).getMatches(10);
 
-        ArrayList<ConversationFragment> fragments = new ArrayList<ConversationFragment>();
-
-        for(Integer key : conversations.keySet()) {
-            ConversationFragment cf = new ConversationFragment();
-            cf.otherUser =  ((GlobalSingleton) this.getActivity().getApplication()).getUser(key);
-            cf.setPreview(conversations.get(key).preview);
-            cf.rid = conversations.get(key).rid;
-            fragments.add(cf);
+        for(Match m : matches) { //m
+            //ConversationFragment cf = new ConversationFragment();
+            //cf.otherUser =  ((GlobalSingleton) this.getActivity().getApplication()).getUser(key);
+            //cf.setPreview(conversations.get(key).preview);
+           // cf.rid = conversations.get(key).rid;
+         //   fragments.add(cf);
         }
 
         // specify an adapter
-        mAdapter = new MatchRecyclerViewAdapter(fragments);
-        ((MatchRecyclerViewAdapter) mAdapter).setViewPager(viewPager);
-        ((MatchRecyclerViewAdapter) mAdapter).setPagerAdapter(pagerAdapter);
-        recyclerView.setAdapter(mAdapter);
+      //  mAdapter = new MatchRecyclerViewAdapter(fragments);
+        //((MatchRecyclerViewAdapter) mAdapter).setViewPager(viewPager);
+        //((MatchRecyclerViewAdapter) mAdapter).setPagerAdapter(pagerAdapter);
+        //recyclerView.setAdapter(mAdapter);
 
         return view;
     }

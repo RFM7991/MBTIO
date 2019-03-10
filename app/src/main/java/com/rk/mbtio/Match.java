@@ -7,13 +7,10 @@ public class Match {
     public String name;
     public String bio;
     public String mbti;
-    public int rid;
+    public int uid;
 
     public Match() {
 
-    }
-
-    public Match(int id) {
     }
 
     public Match(User u) {
@@ -21,10 +18,9 @@ public class Match {
         this.height = u.height;
         this.age = u.age;
         this.name = u.name;
-        this.rid = u.uid;
+        this.uid = u.uid;
         this.bio = u.bio;
         this.mbti = u.mbti;
-
     }
 /*
     public void setUid(int uid) {
