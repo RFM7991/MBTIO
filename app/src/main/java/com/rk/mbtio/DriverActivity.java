@@ -1,6 +1,7 @@
 package com.rk.mbtio;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -20,7 +21,9 @@ import com.rk.mbtio.DriverFragments.UserProfileFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class DriverActivity extends AppCompatActivity {
 
@@ -30,17 +33,23 @@ public class DriverActivity extends AppCompatActivity {
 
     private JsonRequestTool requestTool;
 
+    private boolean isRunning;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        init();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.fragmentContainer);
         ((ViewPager) mViewPager).setAdapter(mSectionsPagerAdapter);
-
+        mViewPager.setOffscreenPageLimit(5);
         // set to matches page
         mViewPager.setCurrentItem(1);
+
+        ((GlobalSingleton) getApplication()).setViewPager(mViewPager);
+        ((GlobalSingleton) getApplication()).setPagerAdapter(mSectionsPagerAdapter);
 
 /*      For deletion
         // add Inbox and pas viewpager and PagerAdapter
@@ -60,6 +69,53 @@ public class DriverActivity extends AppCompatActivity {
 
     }
 
+    public void onResume() {
+        super.onResume();
+        isRunning = true;
+    }
+
+    public void onPause() {
+        super.onPause();
+        isRunning = false;
+    }
+
+    public void ping() {
+        isRunning = true;
+
+        Thread ping = new Thread(new Runnable() {
+            public void run() {
+                while(true) {
+                    if (isRunning) {
+                        // testing
+                        boolean isDifferenet = true;
+
+                        String timeStamp = DateFormat.getTimeInstance().format(System.currentTimeMillis());
+                        Log.i("PING", timeStamp);
+             //           checkMessages();
+
+
+                        SharedPreferences settings = getApplicationContext().getSharedPreferences("PREFERENCES", 0);
+                        // preferences
+                        Map<String,?> keys = settings.getAll();
+
+                        for(Map.Entry<String,?> entry : keys.entrySet()){
+                            Log.d("map values",entry.getKey() + ": " +
+                                    entry.getValue().toString());
+                        }
+
+                    }
+                    // delay 5 seconds
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+            }
+        });
+
+        ping.start();
+    }
 
 
     // sections pager adapter for create user activity
@@ -82,7 +138,7 @@ public class DriverActivity extends AppCompatActivity {
             fragments.add(new InboxFragment());
 
             // chcat - 3 // two to the right
-            fragments.add(new ChatFragment());
+        //    fragments.add(new ChatFragment());
 
         }
 
@@ -99,6 +155,12 @@ public class DriverActivity extends AppCompatActivity {
         public void addFragment(Fragment f) {
             fragments.add(f);
         }
+    }
+
+    public void init() {
+        (  (GlobalSingleton) getApplication()).init();
+
+        (  (GlobalSingleton) getApplication()).setRequestTool(this);
     }
 
 
@@ -121,7 +183,7 @@ public class DriverActivity extends AppCompatActivity {
     }
 
     // press send button in chat
-    public void pressSend(View view) {
+   /* public void pressSend(View view) {
         Button b = (Button) view;
 
         String text = b.getText().toString();
@@ -132,35 +194,7 @@ public class DriverActivity extends AppCompatActivity {
         // attempt message post
         sendMessage(text);
     }
-
-    //  POST for send message
-    public void sendMessage(String message) {
-        JSONObject data = new JSONObject();
-
-        try {
-            data.put("sid", 0);
-            data.put("rid", 42);
-            data.put("num", 0);
-            data.put("pin", 1);
-            data.put("message", message);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        requestTool.JSONRequestObj("/messages/send", "POST", data, new JsonRequestTool.VolleyObjCallback() {
-            @Override
-            public void onSuccess(JSONObject results) {
-
-                Log.d("JSON", results.toString());
-
-            }
-        });
-    }
-
-    public void pressConversation(View view) {
-     Log.d("RFM", "pressConversation");
-     mViewPager.setCurrentItem(3);
-    }
+    */
 
 }
 

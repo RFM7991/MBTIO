@@ -1,5 +1,6 @@
 package com.rk.mbtio;
 
+import android.app.Activity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
+import com.rk.mbtio.DriverFragments.ChatFragment;
 import java.util.ArrayList;
 
 public class ChatRecyclerViewAdapter extends Adapter<ChatRecyclerViewAdapter.CustomViewHolder> {
@@ -15,9 +18,10 @@ public class ChatRecyclerViewAdapter extends Adapter<ChatRecyclerViewAdapter.Cus
     // provide a reference to the view for each data item
     // complex data item may need more than one view per item
     // you provide access to all the iews for a data item in a view holder
-    private ArrayList<UserMessage> messages;
+    private ArrayList<Message> messages;
     public ViewPager viewPager;
-
+    public Activity activity;
+    public int state = 0;
     final int IN = 0;
     final int OUT = 1;
 
@@ -39,15 +43,15 @@ public class ChatRecyclerViewAdapter extends Adapter<ChatRecyclerViewAdapter.Cus
     }
 
     // Specify appropriate constructor for dataset
-    public ChatRecyclerViewAdapter(ArrayList<UserMessage> data) {
+    public ChatRecyclerViewAdapter(ArrayList<Message> data) {
         messages = data;
     }
 
 
     public int getItemViewType(int position) {
-        UserMessage m = (UserMessage) messages.get(position);
+        Message m = (Message) messages.get(position);
 
-        if (m.getDirection() == 0) {
+        if (!m.sent ) {
             // recieving message
             return IN;
         } else {
@@ -79,12 +83,32 @@ public class ChatRecyclerViewAdapter extends Adapter<ChatRecyclerViewAdapter.Cus
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         // - get element from your dataset at this position
         // -replace the contents of the view with that element
-        UserMessage m = messages.get(position);
+        Message m = messages.get(position);
 
         // set text
-        holder.message.setText(m.getMessageText());
+        holder.message.setText(m.message);
 
+        // set button listeners
+        holder.view.findViewById(R.id.innerLayout).setOnClickListener(new View.OnClickListener() {
+            @Override
 
+            public void onClick(View v) {
+                // no chat created
+                if (state == 0) {
+                    state++;
+                    ChatFragment cf = new ChatFragment();
+                    ((GlobalSingleton) activity.getApplicationContext()).pagerAdapter.addFragment(cf);
+                    ((GlobalSingleton) activity.getApplicationContext()).pagerAdapter.notifyDataSetChanged();
+                    ((GlobalSingleton) activity.getApplicationContext()).viewPager.setCurrentItem(
+                            ((GlobalSingleton) activity.getApplicationContext()).pagerAdapter.getCount() - 1);
+                }
+                else {
+                    // change current chatFragment to corresponding chat
+
+                }
+
+            }
+        });
     }
 
     // get size of dataset in recycler view
@@ -97,6 +121,13 @@ public class ChatRecyclerViewAdapter extends Adapter<ChatRecyclerViewAdapter.Cus
     public void setViewPager(ViewPager vp) {
         viewPager = vp;
     };
+
+
+    // add message at runtime
+    public void addMessage(Message m) {
+        messages.add(m);
+        notifyDataSetChanged();
+    }
 
 
 }

@@ -22,10 +22,6 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class InboxFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     public ViewPager viewPager;
     private RecyclerView recyclerView;
@@ -42,9 +38,6 @@ public class InboxFragment extends Fragment {
         pagerAdapter = adp;
     }
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
 
     public InboxFragment() {
@@ -63,12 +56,6 @@ public class InboxFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-  //      mViewPager = (ViewPager) getActivity().findViewById(R.id.container_main);
     }
 
     @Override
@@ -88,58 +75,17 @@ public class InboxFragment extends Fragment {
         layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        // users button
-        usersButton = view.findViewById(R.id.users);
-        usersButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager.setCurrentItem(3);
-            }
-        });
-
-
         HashMap<Integer, Conversation> conversations = ((GlobalSingleton) getActivity().getApplication()).getConversations();
 
-        // add conversation fragments
-        ConversationFragment convo1 = new ConversationFragment();
-        convo1.setPreview("hey there");
-        convo1.setSender("Rob");
-
-        ConversationFragment convo2 = new ConversationFragment();
-        convo2.setPreview("fuck me");
-        convo2.setSender("Kirk");
-
-        ConversationFragment convo3 = new ConversationFragment();
-        convo3.setPreview("yooo dogg");
-        convo3.setSender("Camila");
-
-        Random rand = new Random();
-
-        // data
         ArrayList<ConversationFragment> fragments = new ArrayList<ConversationFragment>();
 
-        // load conversation fragment
-        fragments.add(convo1);
-        fragments.add(convo2);
-        fragments.add(convo3);
-
-        // load test fragments
-        for (int i = 0; i < 100; i++) {
-            ConversationFragment f = new ConversationFragment();
-            String p = ("" + rand.nextInt(1000000000) + " " +
-                    " " + rand.nextInt(1000000000) +
-                    " " +  rand.nextInt(1000000000) +
-                    " " + rand.nextInt(100));
-
-            if (p.length() > 30) {
-                f.setPreview(p.substring(0, 30) + "...");
-            } else
-                f.setPreview(p);
-
-            f.setSender("" + rand.nextInt(9));
-            fragments.add(f);
+        for(Integer key : conversations.keySet()) {
+            ConversationFragment cf = new ConversationFragment();
+            cf.otherUser =  ((GlobalSingleton) this.getActivity().getApplication()).getUser(key);
+            cf.setPreview(conversations.get(key).preview);
+            cf.rid = conversations.get(key).rid;
+            fragments.add(cf);
         }
-
 
         // specify an adapter
         mAdapter = new InboxRecyclerViewAdapter(fragments);

@@ -4,21 +4,19 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.rk.mbtio.DriverFragments.ChatFragment;
-import com.rk.mbtio.DriverFragments.ConversationFragment;
 import com.rk.mbtio.DriverActivity.SectionsPagerAdapter;
+import com.rk.mbtio.DriverFragments.ConversationFragment;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class InboxRecyclerViewAdapter extends RecyclerView.Adapter<InboxRecyclerViewAdapter.CustomViewHolder> {
+public class MatchRecyclerViewAdapter extends RecyclerView.Adapter<MatchRecyclerViewAdapter.CustomViewHolder> {
 
     // provide a reference to the view for each data item
     // complex data item may need more than one view per item
@@ -50,13 +48,13 @@ public class InboxRecyclerViewAdapter extends RecyclerView.Adapter<InboxRecycler
     }
 
     // Specify appropriate constructor for dataset
-    public InboxRecyclerViewAdapter(ArrayList<ConversationFragment> data) {
+    public MatchRecyclerViewAdapter(ArrayList<ConversationFragment> data) {
 
         fragments = data;
     }
 
     // Create new views (invoked by the layout manager)
-    public InboxRecyclerViewAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MatchRecyclerViewAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         // create a new view
         View v = LayoutInflater.from(parent.getContext())

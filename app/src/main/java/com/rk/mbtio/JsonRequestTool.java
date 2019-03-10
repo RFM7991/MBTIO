@@ -33,7 +33,7 @@ public class JsonRequestTool {
     }
 
     // test POST for send message
-    public void sendMessage(int sid, int rid, int num, int pin, String message) {
+    public void sendMessage(int sid, int rid, int pin, int num, String message) {
 
         JSONObject data = new JSONObject();
 
@@ -120,7 +120,6 @@ public class JsonRequestTool {
         try {
             data.put("uid", uid);
             data.put("pin", pin);
-
             data.put("max", max);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -133,7 +132,6 @@ public class JsonRequestTool {
             }
         });
     }
-
 
     // test POST for gettng all profiles
     public void getAllProfiles(int uid, int pin) {
@@ -203,7 +201,6 @@ public class JsonRequestTool {
             }
         });
     }
-
 
     // test POST for sending twilio text
     public void checkProfileReady(int uid, int pin) {
