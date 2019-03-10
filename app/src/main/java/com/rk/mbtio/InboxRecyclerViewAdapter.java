@@ -28,7 +28,6 @@ public class InboxRecyclerViewAdapter extends RecyclerView.Adapter<InboxRecycler
     public SectionsPagerAdapter pagerAdapter;
     private String fragment_context;
 
-
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
         private TextView  preview;

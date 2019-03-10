@@ -33,7 +33,7 @@ public class JsonRequestTool {
     }
 
     // test POST for send message
-    public void sendMessage(int sid, int rid, int num, int pin, String message) {
+    public void sendMessage(int sid, int rid, int pin, int num, String message) {
 
         JSONObject data = new JSONObject();
 

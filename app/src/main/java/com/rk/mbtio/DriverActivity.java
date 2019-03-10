@@ -37,6 +37,7 @@ public class DriverActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        init();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -156,6 +157,12 @@ public class DriverActivity extends AppCompatActivity {
         }
     }
 
+    public void init() {
+        (  (GlobalSingleton) getApplication()).init();
+
+        (  (GlobalSingleton) getApplication()).setRequestTool(this);
+    }
+
 
     // hide keyboard on pressing message space
     public void pressMessageSpace(View view) {
@@ -176,7 +183,7 @@ public class DriverActivity extends AppCompatActivity {
     }
 
     // press send button in chat
-    public void pressSend(View view) {
+   /* public void pressSend(View view) {
         Button b = (Button) view;
 
         String text = b.getText().toString();
@@ -187,29 +194,7 @@ public class DriverActivity extends AppCompatActivity {
         // attempt message post
         sendMessage(text);
     }
-
-    //  POST for send message
-    public void sendMessage(String message) {
-        JSONObject data = new JSONObject();
-
-        try {
-            data.put("sid", 0);
-            data.put("rid", 42);
-            data.put("num", 0);
-            data.put("pin", 1);
-            data.put("message", message);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        requestTool.JSONRequestObj("/messages/send", "POST", data, new JsonRequestTool.VolleyObjCallback() {
-            @Override
-            public void onSuccess(JSONObject results) {
-
-                Log.d("JSON", results.toString());
-            }
-        });
-    }
+    */
 
 }
 

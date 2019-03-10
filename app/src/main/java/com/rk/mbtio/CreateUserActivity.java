@@ -84,8 +84,8 @@ public class CreateUserActivity extends AppCompatActivity {
         // test loop
         //   loop();
 
-        // test
-        sendMessage();
+        (  (GlobalSingleton) getApplication()).init();
+        (  (GlobalSingleton) getApplication()).setRequestTool(this);
     }
     // swap viewpager to free fragment
     public void goToChat(View view) {

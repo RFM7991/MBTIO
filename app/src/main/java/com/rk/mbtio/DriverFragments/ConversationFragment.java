@@ -14,13 +14,12 @@ import com.rk.mbtio.DriverActivity;
 import com.rk.mbtio.GlobalSingleton;
 import com.rk.mbtio.R;
 import com.rk.mbtio.User;
-import com.rk.mbtio.UserMessage;
+import com.rk.mbtio.Message;
 
 import java.util.ArrayList;
 import com.rk.mbtio.DriverActivity.SectionsPagerAdapter;
 
 public class ConversationFragment extends Fragment {
-
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -33,11 +32,13 @@ public class ConversationFragment extends Fragment {
     private String sender;
     private ConstraintLayout mLayout;
 
+    public User otherUser;
+
     private SectionsPagerAdapter pagerAdapter;
     private ViewPager viewPager;
 
     private Conversation mConversation;
-
+    public int rid;
 
     public ConversationFragment() {
         // Required empty public constructor
@@ -58,8 +59,7 @@ public class ConversationFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
-        mConversation = new Conversation(getMesages());
+        mConversation = new Conversation(0, 0, getMesages());
         pagerAdapter = ((GlobalSingleton) this.getActivity().getApplication()).getPagerAdapter();
         viewPager = ((GlobalSingleton) this.getActivity().getApplication()).getViewPager();
     }
@@ -97,13 +97,10 @@ public class ConversationFragment extends Fragment {
         this.sender = sender;
     }
 
-
     // to do associate with
-    public ArrayList<UserMessage> getMesages() {
+    public ArrayList<Message> getMesages() {
         return null;
     }
-
-
 
     public void loadChat() {
         Log.d("RFM", "pressConversation");

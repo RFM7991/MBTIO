@@ -15,9 +15,10 @@ import android.widget.EditText;
 
 import com.rk.mbtio.ChatRecyclerViewAdapter;
 import com.rk.mbtio.Conversation;
+import com.rk.mbtio.GlobalSingleton;
 import com.rk.mbtio.JsonRequestTool;
 import com.rk.mbtio.R;
-import com.rk.mbtio.UserMessage;
+import com.rk.mbtio.Message;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,12 +33,12 @@ public class ChatFragment extends Fragment {
 
     private Conversation mConversation;
     private ChatRecyclerViewAdapter mAdapter;
-    private JsonRequestTool requestTool;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private EditText edit_text;
     private Button sendButton;
 
+    public ArrayList<Message>messages;
     public ChatFragment() {
         // required empty
     }
@@ -53,8 +54,6 @@ public class ChatFragment extends Fragment {
         if (getArguments() != null) {
             // work with args
         }
-        // api caller
-        requestTool = new JsonRequestTool(getContext());
     }
 
     @Override
@@ -70,7 +69,6 @@ public class ChatFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         // load messages
-        ArrayList<UserMessage> messages = new ArrayList<UserMessage>();
         messages = loadMessages();
 
         // specify an adapter for recycler view
@@ -80,6 +78,7 @@ public class ChatFragment extends Fragment {
 
         sendButton = view.findViewById(R.id.chatbox_send);
         edit_text = view.findViewById(R.id.edittext_chatbox);
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,56 +86,44 @@ public class ChatFragment extends Fragment {
                 edit_text.setText("");
 
                 // Post Message
-                sendMessage(text);
+               Message m =  sendChat(text, messages.size());
 
                 // add message to recyclerView
-                mAdapter.addMessage(new UserMessage(text ,1));
+                mAdapter.addMessage(m);
             }
         });
 
         return view;
     }
 
-    //  POST for send message
-    public void sendMessage(String message) {
-        JSONObject data = new JSONObject();
+    public Message sendChat(String text, int num) {
+        int uid = (  (GlobalSingleton) getActivity().getApplication()).user.getUid();
+        Message m = new Message(mConversation.sid, mConversation.rid, num, text, true);
 
-        try {
-            data.put("sid", 0);
-            data.put("rid", 42);
-            data.put("num", 0);
-            data.put("pin", 1);
-            data.put("message", message);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        (  (GlobalSingleton) getActivity().getApplication()).requestTool.sendMessage(m.sid, m.rid, m.num,
+                (  (GlobalSingleton) getActivity().getApplication()).user.pin, m.message);
+        return m;
 
-        requestTool.JSONRequestObj("/messages/send", "POST", data, new JsonRequestTool.VolleyObjCallback() {
-            @Override
-            public void onSuccess(JSONObject results) {
-
-                Log.d("JSON", results.toString());
-
-            }
-        });
     }
 
-    // load current conversation with messages
-    public ArrayList<UserMessage> loadMessages() {
-        ArrayList<UserMessage> m = new ArrayList<UserMessage>();
 
-        m.add(new UserMessage("Hey", 0));
-        m.add(new UserMessage("Hi", 1));
+    // load current conversation with messages
+    public ArrayList<Message> loadMessages() {
+        ArrayList<Message> m = new ArrayList<Message>();
+
+       /* m.add(new Message("Hey", 0));
+        m.add(new Message("Hi", 1));
 
         Random rand = new Random();
         for (int i=0; i < 5; i++) {
-            m.add(new UserMessage("0" + rand.nextInt(), 0));
-            m.add(new UserMessage("1" + rand.nextInt(),   1));
+            m.add(new Message("0" + rand.nextInt(), 0));
+            m.add(new Message("1" + rand.nextInt(),   1));
         }
 
-        m.add(new UserMessage("fin", 0));
-        m.add(new UserMessage("fin", 1));
-
+        m.add(new Message("fin", 0));
+        m.add(new Message("fin", 1));
+*/
         return m;
     }
+
 }
